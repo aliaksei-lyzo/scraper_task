@@ -12,5 +12,7 @@ Then I will ask Copilot to help picking the best libraries and tools for the tas
 
 So, here we go.
 
+04.05.2025 15:48 Started the project. Copilot advised to use Streamlit for the UI and ChromaBD as Vector.
+
 
 

@@ -31,7 +31,9 @@ This project is designed to assess your problem-solving skills and ability to qu
 ## Requirements
 
 - Implement the solution using **Python**.
-- Relevant libraries might include **Langchain**, **LlamaIndex**, **Semantic Kernel**, or others.
+- AI Framework: Use **LangChain**
+- UI: **Streamlit**;
+- Vector Database: **ChromaDB**;
 - The solution should be clean, well-structured, and properly documented.
 ---
 
