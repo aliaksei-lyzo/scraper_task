@@ -6,8 +6,8 @@
 
 
 ## Current Tasks
-- [ ] Set up Python virtual environment (2025-05-04) — 10 min
-- [ ] Create requirements.txt and install dependencies: LangChain, Streamlit, ChromaDB, pydantic, pytest (2025-05-04) — 10 min
+- [x] Set up Python virtual environment (2025-05-04) — 10 min // Completed 2025-05-04
+- [x] Create requirements.txt and install dependencies: LangChain, Streamlit, ChromaDB, pydantic, pytest (2025-05-04) — 10 min // Completed 2025-05-04 (used Poetry as per planning)
 - [ ] Scaffold project folder structure (src/, tests/, etc.) (2025-05-04) — 10 min
 - [ ] Implement module to extract news article headline and full text from a given URL (2025-05-04) — 30 min
 - [ ] Add error handling and edge case support for extraction (2025-05-04) — 15 min

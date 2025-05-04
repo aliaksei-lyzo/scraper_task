@@ -12,7 +12,8 @@ Then I will ask Copilot to help picking the best libraries and tools for the tas
 
 So, here we go.
 
-04.05.2025 15:48 Started the project. Copilot advised to use Streamlit for the UI and ChromaBD as Vector.
+04.05.2025 00:00 Started the project. Copilot advised to use Streamlit for the UI and ChromaBD as Vector.
 
-04.05.2025 16:00 Copilot generated task list and project structure. I will start with the first task - setting up the Python virtual environment and installing the required libraries. He estimated total time of 4h 35min for the project. I think it is a bit optimistic, but let's see how it goes.
+04.05.2025 00:05 Copilot generated task list and project structure. I will start with the first task - setting up the Python virtual environment and installing the required libraries. He estimated total time of 4h 35min for the project. I think it is a bit optimistic, but let's see how it goes.
 
+04.05.2025 00:20 CP struggled to install dependencies using poetry - faced issues with permissons, which it couldn't resolve. I switched to Admin mode in VS Code, then all 
