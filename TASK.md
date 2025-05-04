@@ -4,9 +4,24 @@
 - [x] Create initial project structure (2025-03-29) // Completed task
 - [ ] Update README.md with setup and usage instructions (2025-03-29) // Uncompleted task
 
+
 ## Current Tasks
+- [ ] Set up Python virtual environment (2025-05-04)
+- [ ] Create requirements.txt and install dependencies: LangChain, Streamlit, ChromaDB, pydantic, pytest (2025-05-04)
+- [ ] Scaffold project folder structure (src/, tests/, etc.) (2025-05-04)
+- [ ] Implement module to extract news article headline and full text from a given URL (2025-05-04)
+- [ ] Add error handling and edge case support for extraction (2025-05-04)
+- [ ] Integrate LangChain for GenAI summarization of article content (2025-05-04)
+- [ ] Integrate LangChain for topic identification from article content (2025-05-04)
+- [ ] Design and implement pydantic models for article, summary, and topic data (2025-05-04)
+- [ ] Store articles, summaries, and topics in ChromaDB vector database (2025-05-04)
+- [ ] Implement semantic search using GenAI and ChromaDB (2025-05-04)
+- [ ] Build Streamlit UI: input URLs, display summaries, topics, and search results (2025-05-04)
+- [ ] Write Pytest unit tests for extraction, summarization, topic identification, and search (2025-05-04)
+- [ ] Update README.md with setup, usage, and architecture details (2025-05-04)
 
 ## Upcoming Tasks
-
+- [ ] Add support for additional GenAI models (optional)
+- [ ] Enhance UI with advanced filtering and visualization (optional)
 
 ## Discovered During Work
