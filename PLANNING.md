@@ -30,7 +30,7 @@ This project is designed to assess your problem-solving skills and ability to qu
 
 ## Requirements
 
-- Implement the solution using **Python**.
+- Implement the solution using **Python** with **Poetry**.
 - AI Framework: Use **LangChain**
 - UI: **Streamlit**;
 - Vector Database: **ChromaDB**;
