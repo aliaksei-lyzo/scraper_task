@@ -9,8 +9,8 @@
 - [x] Set up Python virtual environment (2025-05-04) — 10 min
 - [x] Create requirements.txt and install dependencies: LangChain, Streamlit, ChromaDB, pydantic, pytest (2025-05-04) — 10 min
 - [x] Scaffold project folder structure (src/, tests/, etc.) (2025-05-04) — 10 min
-- [ ] Implement module to extract news article headline and full text from a given URL (2025-05-04) — 30 min
-- [ ] Add error handling and edge case support for extraction (2025-05-04) — 15 min
+- [x] Implement module to extract news article headline and full text from a given URL (2025-05-04) — 30 min
+- [x] Add error handling and edge case support for extraction (2025-05-04) — 15 min
 - [ ] Integrate LangChain for GenAI summarization of article content (2025-05-04) — 30 min
 - [ ] Integrate LangChain for topic identification from article content (2025-05-04) — 20 min
 - [ ] Design and implement pydantic models for article, summary, and topic data (2025-05-04) — 15 min
