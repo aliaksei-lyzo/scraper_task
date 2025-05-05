@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 from pydantic import BaseModel, HttpUrl
 from typing import Optional, Dict, Any
 import logging
+from bs4.element import Tag
 
 # Configure logging
 logging.basicConfig(
@@ -83,7 +84,7 @@ class ArticleExtractor:
             metadata = self._extract_metadata(soup)
             
             return ArticleContent(
-                url=url,
+                url=HttpUrl(url)        ,
                 title=title,
                 text=text,
                 metadata=metadata
@@ -113,8 +114,10 @@ class ArticleExtractor:
         # Try different common patterns for article titles
         # 1. Look for article tags with headlines
         if article := soup.find('article'):
-            if headline := article.find(['h1', 'h2']):
-                return headline.get_text().strip()
+            # Only call .find if 'article' is a Tag, not a NavigableString or other PageElement
+            if isinstance(article, Tag):
+                if headline := article.find(['h1', 'h2']):
+                    return headline.get_text().strip()
         
         # 2. Look for standard header tags
         if h1 := soup.find('h1'):
@@ -199,7 +202,7 @@ class ArticleExtractor:
         for selector in author_selectors:
             if 'meta' in selector:
                 if author_meta := soup.select_one(selector):
-                    metadata['author'] = author_meta.get('content', '').strip()
+                    metadata['author'] = author_meta.get('content', '')
                     break
             elif author_elem := soup.select_one(selector):
                 metadata['author'] = author_elem.get_text().strip()
@@ -214,12 +217,12 @@ class ArticleExtractor:
         for selector in date_selectors:
             if 'meta' in selector:
                 if date_meta := soup.select_one(selector):
-                    metadata['date'] = date_meta.get('content', '').strip()
+                    metadata['date'] = date_meta.get('content', '')
                     break
             elif date_elem := soup.select_one(selector):
                 # Check if there's a datetime attribute
                 if date_attr := date_elem.get('datetime'):
-                    metadata['date'] = date_attr.strip()
+                    metadata['date'] = date_attr
                 else:
                     metadata['date'] = date_elem.get_text().strip()
                 break
