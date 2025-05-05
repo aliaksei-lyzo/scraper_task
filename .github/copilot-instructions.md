@@ -4,7 +4,7 @@
 - **Use consistent naming conventions, file structure, and architecture patterns** as described in `PLANNING.md`.
 
 ### Environment
-- Terminal used is PowerShell.
+- Terminal used is PowerShell - use Powershell syntax for terminal commands.
 - Use poetry for package management and virtual environments. Do not modify `pyproject.toml` or `poetry.lock` if a new package is needed, instead use poetry add command.
 
 ### 🧱 Code Structure & Modularity
