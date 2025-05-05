@@ -26,5 +26,6 @@ So, here we go.
 
 02:38 I have been struggling with Copilot for a while now. First it keeps entering commands for bash, when I'm using PowerShell. Then it keeps installing packages by modifying pyproject.toml and lockfile, or tries to use pip. Tried fixing it by modifying the copilod-instructions.md file, we'll see how it goes. Also a huge issue is that the Copilot Chat UI is crazy - when I try to end the session, I save all files but when I close the chat (although i click keep everywhere possible) it still reverts all changes! I lost all changes 2 or 3 times already. Trying to figure out how to fix it, in the meantime the possible way is to commit the changes and then cancel out reverting.
 
+03:00 Now we're talking. Fed the agent with docs for the Langchain 0.3.0 and with minor fixes it generated a working code for news summarization. Unit tests are also working, however I didn't check the quality of the tests. Summaries are looking good.
 
 

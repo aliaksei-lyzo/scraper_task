@@ -1,12 +1,14 @@
-import logging
-from extractor import ArticleExtractor, ArticleContent
-
 """
 Main application module for news article scraping.
 
 This module demonstrates how to use the ArticleExtractor class
-to extract content from news articles.
+to extract content from news articles and the ArticleSummarizer
+to generate summaries and identify topics.
 """
+
+import logging
+from extractor import ArticleExtractor, ArticleContent
+from summarizer import ArticleSummarizer, ArticleSummary, TopicIdentification
 
 
 # Configure logging
@@ -19,12 +21,13 @@ logger = logging.getLogger(__name__)
 
 def main() -> None:
     """
-    Main function to demonstrate article extraction.
+    Main function to demonstrate article extraction, summarization, and topic identification.
     
-    Extracts and displays content from a sample BBC news article.
+    Extracts, summarizes, and analyzes a sample BBC news article.
     """
-    # Initialize the article extractor
+    # Initialize the article extractor and summarizer
     extractor = ArticleExtractor()
+    summarizer = ArticleSummarizer()
     
     # BBC News article URL
     url = "https://www.bbc.com/news/articles/c3r807j7xrwo"
@@ -38,7 +41,7 @@ def main() -> None:
         print("\n===== EXTRACTED ARTICLE =====")
         print(f"Title: {article.title}")
         print("\n--- Full Text ---")
-        print(article.text)
+        print(f"{article.text[:500]}...")  # Only show first 500 chars
         print("\n--- Metadata ---")
         if article.metadata:
             for key, value in article.metadata.items():
@@ -46,7 +49,24 @@ def main() -> None:
         else:
             print("No metadata extracted")
         
-        logger.info("Article extraction completed successfully")
+        # Generate a concise summary
+        logger.info("Generating article summary...")
+        summary: ArticleSummary = summarizer.summarize(article, summary_type="concise")
+        
+        # Display the summary
+        print("\n===== ARTICLE SUMMARY =====")
+        print(summary.summary)
+        
+        # Identify topics and keywords
+        logger.info("Identifying article topics...")
+        topics: TopicIdentification = summarizer.identify_topics(article)
+        
+        # Display topics and keywords
+        print("\n===== ARTICLE TOPICS =====")
+        print(f"Topics: {', '.join(topics.topics)}")
+        print(f"Keywords: {', '.join(topics.keywords)}")
+        
+        logger.info("Article processing completed successfully")
             
     except ValueError as e:
         logger.error(f"Extraction failed: {e}")

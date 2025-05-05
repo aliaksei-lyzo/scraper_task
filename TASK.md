@@ -11,8 +11,8 @@
 - [x] Scaffold project folder structure (src/, tests/, etc.) (2025-05-04) — 10 min
 - [x] Implement module to extract news article headline and full text from a given URL (2025-05-04) — 30 min
 - [x] Add error handling and edge case support for extraction (2025-05-04) — 15 min
-- [ ] Integrate LangChain for GenAI summarization of article content (2025-05-04) — 30 min
-- [ ] Integrate LangChain for topic identification from article content (2025-05-04) — 20 min
+- [x] Integrate LangChain for GenAI summarization of article content (2025-05-05) — 30 min
+- [x] Integrate LangChain for topic identification from article content (2025-05-05) — 20 min
 - [ ] Design and implement pydantic models for article, summary, and topic data (2025-05-04) — 15 min
 - [ ] Store articles, summaries, and topics in ChromaDB vector database (2025-05-04) — 20 min
 - [ ] Implement semantic search using GenAI and ChromaDB (2025-05-04) — 30 min
