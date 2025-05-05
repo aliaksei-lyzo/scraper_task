@@ -33,6 +33,7 @@ Develop a solution that extracts news articles from provided URLs, generates sum
 - AI Framework: Use **LangChain**
 - UI: **Streamlit**;
 - Vector Database: **ChromaDB**;
+- For LLM use **OpenAI** API.
 - The solution should be clean, well-structured, and properly documented.
 ---
 
