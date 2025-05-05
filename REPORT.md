@@ -28,4 +28,5 @@ So, here we go.
 
 03:00 Now we're talking. Fed the agent with docs for the Langchain 0.3.0 and with minor fixes it generated a working code for news summarization. Unit tests are also working, however I didn't check the quality of the tests. Summaries are looking good.
 
+3:14 Pretty quickly extracted the models to a separate file, fixed the tests. Noice!
 
