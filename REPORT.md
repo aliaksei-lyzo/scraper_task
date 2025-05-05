@@ -21,3 +21,7 @@ So, here we go.
 00:45 GPT-4.1 messed up with the set up of venv and poetry and couldn't resolve it. Claude Sonnet 3.7 solved the issue in 1 minute. I will use Claude for the rest of the project for now.
 
 01:00 Claude 3.7 is amazing - quickly resolved the IDE issue of connecting to the correct python interpreter.
+
+01:38 I have carefully studied and learnt the code for extration of text from news urls. I have fixed a couple of issues myself - a note not to ask for these fixes in chat-agentic mode, as it will mess the whole file (or at lest save and commit beforehand). Inline chat works better here.
+
+
