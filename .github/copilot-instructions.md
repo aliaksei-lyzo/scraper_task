@@ -6,6 +6,7 @@
 ### Environment
 - Terminal used is PowerShell - use Powershell syntax for terminal commands.
 - Use poetry for package management and virtual environments. Do not modify `pyproject.toml` or `poetry.lock` if a new package is needed, instead use poetry add command.
+- Run tests using `pytest` command in the terminal.
 
 ### 🧱 Code Structure & Modularity
 - **Never create a file longer than 500 lines of code.** If a file approaches this limit, refactor by splitting it into modules or helper files.

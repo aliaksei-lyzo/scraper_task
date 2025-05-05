@@ -7,10 +7,12 @@ from news article URLs using requests and BeautifulSoup.
 
 import requests
 from bs4 import BeautifulSoup
-from pydantic import BaseModel, HttpUrl
-from typing import Optional, Dict, Any
 import logging
 from bs4.element import Tag
+from typing import Dict, Any
+from pydantic import HttpUrl
+
+from src.models import ArticleContent
 
 # Configure logging
 logging.basicConfig(
@@ -18,22 +20,6 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
-
-
-class ArticleContent(BaseModel):
-    """
-    Pydantic model for article content extracted from a URL.
-    
-    Attributes:
-        url: The source URL of the article
-        title: The headline/title of the article
-        text: The full text content of the article
-        metadata: Additional metadata like author, publication date, etc.
-    """
-    url: HttpUrl
-    title: str
-    text: str
-    metadata: Optional[Dict[str, Any]] = None
 
 
 class ArticleExtractor:

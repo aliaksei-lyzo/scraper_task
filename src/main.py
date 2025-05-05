@@ -7,8 +7,9 @@ to generate summaries and identify topics.
 """
 
 import logging
-from extractor import ArticleExtractor, ArticleContent
-from summarizer import ArticleSummarizer, ArticleSummary, TopicIdentification
+from src.extractor import ArticleExtractor
+from src.summarizer import ArticleSummarizer
+from src.models import ArticleContent, ArticleSummary, TopicIdentification
 
 
 # Configure logging

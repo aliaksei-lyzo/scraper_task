@@ -12,8 +12,8 @@ from pydantic import HttpUrl
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
-from src.summarizer import ArticleSummarizer, ArticleSummary, TopicIdentification
-from src.extractor import ArticleContent
+from src.summarizer import ArticleSummarizer
+from src.models import ArticleContent, ArticleSummary, TopicIdentification
 
 
 class TestArticleSummarizer:
