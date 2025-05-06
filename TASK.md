@@ -14,11 +14,11 @@
 - [x] Integrate LangChain for GenAI summarization of article content (2025-05-05) — 30 min
 - [x] Integrate LangChain for topic identification from article content (2025-05-05) — 20 min
 - [x] Design and implement pydantic models for article, summary, and topic data (2025-05-05) — 15 min
-- [ ] Store articles, summaries, and topics in ChromaDB vector database (2025-05-04) — 20 min
-  - [ ] Create Docker Compose file for running ChromaDB (2025-05-05) — 10 min
-  - [ ] Add ChromaDB to project dependencies (2025-05-05) — 5 min
-  - [ ] Create database service module for ChromaDB interactions (2025-05-05) — 15 min
-  - [ ] Implement document storage functionality (2025-05-05) — 20 min
+- [x] Store articles, summaries, and topics in ChromaDB vector database (2025-05-04) — 20 min
+  - [x] Add ChromaDB to project dependencies (2025-05-05) — 5 min
+  - [x] Create database service module for ChromaDB interactions (2025-05-05) — 15 min
+  - [x] Implement document storage functionality (2025-05-05) — 20 min
+  - [x] Switch from Docker to local persistent ChromaDB (2025-05-06) — 15 min
 - [ ] Implement semantic search using GenAI and ChromaDB (2025-05-04) — 30 min
 - [ ] Build Streamlit UI: input URLs, display summaries, topics, and search results (2025-05-04) — 40 min
 - [ ] Write Pytest unit tests for extraction, summarization, topic identification, and search (2025-05-04) — 30 min
