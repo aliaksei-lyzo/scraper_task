@@ -8,15 +8,11 @@ and retrieving article data with vector embeddings for semantic search.
 import logging
 import uuid
 import os
-from typing import List, Dict, Any, Optional, Union
+from typing import List, Dict, Any, Optional
 from pathlib import Path
+from pydantic import SecretStr
 
 import chromadb
-from chromadb.config import Settings
-from chromadb.api import ClientAPI
-from chromadb.utils import embedding_functions
-
-from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
 
 from src.config import OpenAIConfig
@@ -40,29 +36,21 @@ class DatabaseService:
     
     # Collection names constants
     ARTICLES_COLLECTION = "articles"
-      def __init__(self, persist_directory: Optional[str] = None):
+    def __init__(self):
         """
         Initialize the DatabaseService.
-        
-        Args:
-            persist_directory: Directory to persist ChromaDB data
         """        
-        # Set default persist directory if not provided
-        if not persist_directory:
-            persist_directory = os.path.join(Path(__file__).parents[1], "data", "chroma")
+        persist_directory = os.path.join(Path(__file__).parents[1], "data", "chroma")
             
-        # Create directory if it doesn't exist
         os.makedirs(persist_directory, exist_ok=True)
         
         logger.info(f"Initializing local ChromaDB client with persistence at {persist_directory}")
         self.client = chromadb.PersistentClient(path=persist_directory)
-          # Initialize OpenAI embeddings
         self.embedding_function = OpenAIEmbeddings(
-            openai_api_key=OpenAIConfig.API_KEY,
+            api_key=SecretStr(OpenAIConfig.API_KEY),
             model="text-embedding-ada-002"
         )
         
-        # Initialize default collection
         self._init_collections()
         
         logger.info("DatabaseService initialized successfully")
@@ -74,7 +62,6 @@ class DatabaseService:
         This creates the articles collection if it doesn't exist.
         """
         try:
-            # Check if collection exists, if not create it
             try:
                 self.client.get_collection(name=self.ARTICLES_COLLECTION)
                 logger.info(f"Collection '{self.ARTICLES_COLLECTION}' already exists")

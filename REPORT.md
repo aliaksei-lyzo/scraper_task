@@ -30,3 +30,5 @@ So, here we go.
 
 3:14 Pretty quickly extracted the models to a separate file, fixed the tests. Noice!
 
+4:14 Spent some time debugging and setting up the database connection. Lost all changes a couple of times, but found a workaround - starting a new session and then deleting the old one works.
+
