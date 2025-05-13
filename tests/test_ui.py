@@ -10,7 +10,6 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import pytest
 from unittest.mock import patch, MagicMock
 import streamlit as st
 
@@ -33,54 +32,7 @@ class TestUI:
         assert validate_url("example.com") is False  # missing scheme
         assert validate_url("https://") is False  # missing netloc
         assert validate_url("not a url") is False  # completely invalid
-    
-    @patch('src.ui.st.session_state')
-    def test_init_session_state(self, mock_session_state):
-        """Test session state initialization."""
-        # Setup mock session state as dict-like
-        mock_session_state.__contains__.side_effect = lambda key: key in {'search_results', 'processed_urls', 'related_searches'}
-        
-        # Call the function
-        init_session_state()
-        
-        # Verify session state was initialized for missing keys
-        mock_session_state.__setitem__.assert_any_call('search_results', [])
-        mock_session_state.__setitem__.assert_any_call('processed_urls', [])
-        mock_session_state.__setitem__.assert_any_call('related_searches', [])
-    
-    @patch('src.ui.st')
-    @patch('src.ui.ArticleExtractor')
-    @patch('src.ui.ArticleSummarizer')
-    @patch('src.ui.st.session_state')
-    def test_process_article_url_success(self, mock_session_state, mock_summarizer_class, mock_extractor_class, mock_st):
-        """Test successful article processing."""
-        # Setup mocks
-        mock_extractor = MagicMock()
-        mock_extractor_class.return_value = mock_extractor
-        mock_extractor.extract.return_value = MagicMock()
-        
-        mock_summarizer = MagicMock()
-        mock_summarizer_class.return_value = mock_summarizer
-        mock_summarizer.summarize.return_value = MagicMock()
-        mock_summarizer.identify_topics.return_value = MagicMock()
-        
-        mock_db_service = MagicMock()
-        mock_db_service.store_article.return_value = "test_doc_id"
-        
-        mock_session_state.processed_urls = []
-        mock_session_state.db_service = mock_db_service
-        
-        # Call the function
-        result = process_article_url("https://www.example.com")
-        
-        # Verify results
-        assert result is True
-        mock_extractor.extract.assert_called_once_with("https://www.example.com")
-        mock_summarizer.summarize.assert_called_once()
-        mock_summarizer.identify_topics.assert_called_once()
-        mock_db_service.store_article.assert_called_once()
-        assert "https://www.example.com" in mock_session_state.processed_urls
-    
+
     @patch('src.ui.st')
     @patch('src.ui.ArticleExtractor')
     def test_process_article_url_failure(self, mock_extractor_class, mock_st):

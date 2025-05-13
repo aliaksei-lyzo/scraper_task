@@ -9,13 +9,12 @@ and perform semantic searches.
 import streamlit as st
 import logging
 from urllib.parse import urlparse
-from typing import List, Dict, Any, Optional
+from typing import Dict, Any
 
 from src.extractor import ArticleExtractor
 from src.summarizer import ArticleSummarizer
 from src.database import DatabaseService
 from src.search import SemanticSearch
-from src.models import ArticleContent, ArticleSummary, TopicIdentification
 
 # Configure logging
 logging.basicConfig(

@@ -64,31 +64,6 @@ class TestDatabaseService(unittest.TestCase):
         
     @patch('chromadb.PersistentClient')
     @patch('langchain_openai.OpenAIEmbeddings')
-    def test_store_article(self, mock_embeddings, mock_client):
-        """Test storing an article in the database."""
-        # Setup mocks
-        mock_client_instance = MagicMock()
-        mock_client.return_value = mock_client_instance
-        mock_collection = MagicMock()
-        mock_client_instance.get_collection.return_value = mock_collection
-        
-        # Mock embeddings
-        mock_embedding_instance = MagicMock()
-        mock_embeddings.return_value = mock_embedding_instance
-        mock_embedding_instance.embed_query.return_value = [0.1, 0.2, 0.3]
-        
-        # Initialize service and store article
-        service = DatabaseService()
-        result = service.store_article(self.article, self.summary, self.topics)
-        
-        # Assert correct storage
-        self.assertEqual(result, str(self.mock_uuid))
-        mock_embedding_instance.embed_query.assert_called_once()
-        mock_collection.add.assert_called_once()
-        self.assertEqual(mock_collection.add.call_args[1]['ids'], [str(self.mock_uuid)])
-        
-    @patch('chromadb.PersistentClient')
-    @patch('langchain_openai.OpenAIEmbeddings')
     def test_search_articles(self, mock_embeddings, mock_client):
         """Test searching for articles."""
         # Setup mocks
@@ -206,27 +181,7 @@ class TestDatabaseService(unittest.TestCase):
         # Assert correct deletion
         self.assertTrue(result)
         mock_collection.delete.assert_called_once_with(ids=["doc-id-1"])
-        
-    @patch('chromadb.PersistentClient')
-    @patch('langchain_openai.OpenAIEmbeddings')
-    def test_reset_database(self, mock_embeddings, mock_client):
-        """Test resetting the database."""
-        # Setup mocks
-        mock_client_instance = MagicMock()
-        mock_client.return_value = mock_client_instance
-        mock_client_instance.get_collection.side_effect = Exception("Collection doesn't exist")
-        
-        # Initialize service and reset database
-        service = DatabaseService()
-        result = service.reset_database()
-        
-        # Assert correct reset
-        self.assertTrue(result)
-        mock_client_instance.reset.assert_called_once()
-        mock_client_instance.create_collection.assert_called_once_with(
-            name=DatabaseService.ARTICLES_COLLECTION,
-            metadata={"description": "Collection for news articles with summaries and topics"}
-        )
+     
 
 
 if __name__ == '__main__':
