@@ -271,7 +271,6 @@ class DatabaseService:
             
             # Format the results
             articles = []
-            
             for i, doc_id in enumerate(result["ids"]):
                 # Extract data from the result
                 metadata = result["metadatas"][i] if result["metadatas"] else {}
@@ -281,7 +280,9 @@ class DatabaseService:
                     "id": doc_id,
                     "url": metadata.get("url", ""),
                     "title": metadata.get("title", ""),
-                    "topics": str(metadata.get("topics", "")).split(", ")
+                    "summary": metadata.get("summary", ""),  # Include summary
+                    "topics": str(metadata.get("topics", "")).split(", "),
+                    "keywords": str(metadata.get("keywords", "")).split(", ") if metadata.get("keywords") else []  # Include keywords
                 }
                 
                 articles.append(article_data)
