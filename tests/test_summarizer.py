@@ -121,13 +121,14 @@ class TestArticleSummarizer:
             "keywords": ["politics: policy", "economics: finance", "international: global", "politics: treaty", "economics: trade"]
         }
         ```"""
-        
         result = summarizer._parse_topics_response(response)
         
         assert "topics" in result
         assert "keywords" in result
         assert "politics: Politics" in result["topics"]
-        assert "economics: finance" in result["keywords"]    def test_parse_topics_response_invalid_json(self, mock_openai_env):
+        assert "economics: finance" in result["keywords"]
+        
+    def test_parse_topics_response_invalid_json(self, mock_openai_env):
         """Test parsing an invalid JSON response for topics."""
         summarizer = ArticleSummarizer()
         response = """
