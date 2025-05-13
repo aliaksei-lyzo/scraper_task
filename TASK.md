@@ -19,7 +19,7 @@
   - [x] Create database service module for ChromaDB interactions (2025-05-05) — 15 min
   - [x] Implement document storage functionality (2025-05-05) — 20 min
   - [x] Switch from Docker to local persistent ChromaDB (2025-05-06) — 15 min
-- [ ] Implement semantic search using GenAI and ChromaDB (2025-05-04) — 30 min
+- [x] Implement semantic search using GenAI and ChromaDB (2025-05-04) — 30 min
 - [ ] Build Streamlit UI: input URLs, display summaries, topics, and search results (2025-05-04) — 40 min
 - [ ] Write Pytest unit tests for extraction, summarization, topic identification, and search (2025-05-04) — 30 min
 - [ ] Update README.md with setup, usage, and architecture details (2025-05-04) — 15 min

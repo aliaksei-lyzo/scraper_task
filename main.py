@@ -3,8 +3,9 @@ Main application module for news article scraping.
 
 This module demonstrates how to use the ArticleExtractor class
 to extract content from news articles, the ArticleSummarizer
-to generate summaries and identify topics, and the DatabaseService
-to store and retrieve articles from ChromaDB.
+to generate summaries and identify topics, the DatabaseService
+to store and retrieve articles from ChromaDB, and the SemanticSearch
+service to perform enhanced semantic searches.
 """
 
 import logging
@@ -12,6 +13,7 @@ import time
 from src.extractor import ArticleExtractor
 from src.summarizer import ArticleSummarizer
 from src.database import DatabaseService
+from src.search import SemanticSearch
 from src.models import ArticleContent, ArticleSummary, TopicIdentification
 
 
@@ -104,21 +106,34 @@ def main() -> None:
         # Give time for embeddings to be processed
         print("\nWaiting for embeddings to be processed...")
         time.sleep(2)
-        
-        # Demonstrate semantic search capabilities
+          # Demonstrate semantic search capabilities
         print("\n===== SEMANTIC SEARCH DEMO =====")
         search_query = "Latest technology news"
         print(f"Searching for: '{search_query}'")
         
-        search_results = db_service.search_articles(search_query)
+        # Initialize the semantic search service
+        search_service = SemanticSearch()
+        
+        # Search with query expansion
+        print("\n--- Enhanced Semantic Search with Query Expansion ---")
+        search_results = search_service.search(search_query, expand_query=True)
         print(f"\nFound {len(search_results)} results:")
         
         for i, result in enumerate(search_results, 1):
             print(f"\n--- Result {i} ---")
             print(f"Title: {result['title']}")
-            print(f"Relevance Score: {result.get('relevance_score', 'N/A'):.2f}")
+            if result.get('relevance_percentage') is not None:
+                print(f"Relevance: {result['relevance_percentage']}%")
+            else:
+                print(f"Relevance Score: {result.get('relevance_score', 'N/A'):.2f}")
             print(f"Summary: {result['summary'][:150]}...")
             print(f"Topics: {', '.join(result['topics'])}")
+            
+        # Get related search suggestions
+        related_searches = search_service.get_related_searches(search_query)
+        print("\n--- Related Search Suggestions ---")
+        for i, suggestion in enumerate(related_searches, 1):
+            print(f"{i}. {suggestion}")
         
         # List all articles in the database
         print("\n===== ALL STORED ARTICLES =====")
