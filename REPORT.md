@@ -32,3 +32,4 @@ So, here we go.
 
 4:14 Spent some time debugging and setting up the database connection. Lost all changes a couple of times, but found a workaround - starting a new session and then deleting the old one works.
 
+4:56 Finally got the database working. Had to fix a couple of typing issues (seems like copilot doesn't connect to Pylance automatically) and there was an issue with error handling in db setup. Also faced problems with venv in different terminals - but it's just me learning python.
