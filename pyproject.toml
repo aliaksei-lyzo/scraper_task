@@ -15,6 +15,7 @@ langchain = {extras = ["openai"], version = "^0.3.25"}
 langchain-openai = "^0.3.16"
 chromadb = "0.6.3"
 langchain-chroma = "0.2.3"
+streamlit = "^1.45.1"
 
 
 [tool.poetry.group.dev.dependencies]

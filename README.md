@@ -1,6 +1,6 @@
 # News Scraper with GenAI
 
-A Python application that extracts news articles from URLs, generates summaries and identifies topics using GenAI tools, and enables semantic search with ChromaDB.
+A Python application that extracts news articles from URLs, generates summaries and identifies topics using GenAI tools, and enables semantic search with ChromaDB. Features a user-friendly Streamlit web interface for easy interaction.
 
 ## Features
 
@@ -9,7 +9,8 @@ A Python application that extracts news articles from URLs, generates summaries 
 - Identify main topics and keywords from articles
 - Store articles, summaries, and topics in ChromaDB vector database
 - Perform semantic search based on natural language queries
-- Simple command-line interface for demonstration
+- Interactive Streamlit web interface for easy interaction
+- Command-line interface for scripted operations
 
 ## Architecture
 
@@ -19,13 +20,14 @@ The application consists of the following components:
 - **GenAI Summarization**: Uses LangChain and OpenAI to generate article summaries.
 - **Topic Identification**: Uses LangChain and OpenAI to identify main topics and keywords.
 - **Vector Database**: Stores articles with embeddings in ChromaDB for semantic search.
+- **Semantic Search**: Enhanced search capabilities with query expansion using GenAI.
+- **Web Interface**: Interactive Streamlit UI for user-friendly interaction.
 
 ## Setup
 
 ### Prerequisites
 
 - Python 3.8 or higher
-- Docker (for ChromaDB)
 - Poetry (for package management)
 - OpenAI API key
 
@@ -53,25 +55,36 @@ OPENAI_TEMPERATURE=0.7
 OPENAI_MAX_TOKENS=500
 ```
 
-4. Start the ChromaDB server using Docker:
-
-```bash
-docker-compose up -d
-```
+4. ChromaDB will use local persistent storage in the `data/chroma` directory.
 
 ### Usage
 
-To run the application with example articles:
+#### Web Interface (Recommended)
+
+To run the Streamlit web interface:
 
 ```bash
-poetry run python -m src.main
+poetry run streamlit run app.py
+```
+
+This will launch a web browser with an interactive interface where you can:
+1. Add news articles by entering URLs
+2. Browse all stored articles with summaries and topics
+3. Search articles using natural language queries with semantic search
+
+#### Command Line Interface
+
+To run the application with example articles from the command line:
+
+```bash
+poetry run python main.py
 ```
 
 This will:
 1. Extract content from example news articles
 2. Generate summaries and identify topics
 3. Store the articles in ChromaDB
-4. Demonstrate semantic search capabilities
+4. Demonstrate semantic search capabilities in the terminal
 
 ## Project Structure
 
@@ -84,10 +97,13 @@ news-scraper/
 │   ├── summarizer.py     # Article summarization with LangChain
 │   ├── database.py       # ChromaDB integration for vector database
 │   ├── models.py         # Pydantic data models
-│   └── main.py           # Main application entry point
+│   ├── search.py         # Semantic search functionality
+│   └── ui.py             # Streamlit UI components
+├── app.py                # Streamlit application entry point
+├── main.py               # CLI application entry point
 ├── tests/                # Unit tests
 ├── data/                 # Data storage (ChromaDB files)
-├── docker-compose.yml    # Docker setup for ChromaDB
+│   └── chroma/           # Persistent ChromaDB storage
 ├── .env                  # Environment variables (not in repo)
 ├── pyproject.toml        # Poetry dependency management
 └── README.md             # This file
