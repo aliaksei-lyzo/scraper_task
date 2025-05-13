@@ -35,3 +35,5 @@ So, here we go.
 4:56 Finally got the database working. Had to fix a couple of typing issues (seems like copilot doesn't connect to Pylance automatically) and there was an issue with error handling in db setup. Also faced problems with venv in different terminals - but it's just me learning python.
 
 5:12 Quickly done the semantic search task, but not tested yet - wanna test with UI altogether.
+
+5:32 Finalized the UI, had to do a bit of fixes, but overall it was pretty straightforward. I think the UI is looking good, searches are working.
