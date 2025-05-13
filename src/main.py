@@ -9,10 +9,10 @@ to store and retrieve articles from ChromaDB.
 
 import logging
 import time
-from extractor import ArticleExtractor
-from summarizer import ArticleSummarizer
-from database import DatabaseService
-from models import ArticleContent, ArticleSummary, TopicIdentification
+from src.extractor import ArticleExtractor
+from src.summarizer import ArticleSummarizer
+from src.database import DatabaseService
+from src.models import ArticleContent, ArticleSummary, TopicIdentification
 
 
 # Configure logging
