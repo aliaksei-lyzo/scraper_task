@@ -38,10 +38,9 @@ class TestDatabaseService(unittest.TestCase):
             article_id=article_id,
             topics=["Technology", "Testing", "AI"],
             keywords=["test", "article", "mock", "database", "vector"]
-        )
-        
-        # Mock UUID generation to return consistent IDs for testing
-        self.mock_uuid = "test-uuid-12345"
+        )        # Mock UUID generation to return consistent IDs for testing
+        self.mock_uuid = uuid.UUID("12345678-1234-5678-1234-567812345678")
+        uuid.uuid4 = MagicMock(return_value=self.mock_uuid)
         uuid.uuid4 = MagicMock(return_value=self.mock_uuid)
         
     @patch('chromadb.PersistentClient')
@@ -215,6 +214,7 @@ class TestDatabaseService(unittest.TestCase):
         # Setup mocks
         mock_client_instance = MagicMock()
         mock_client.return_value = mock_client_instance
+        mock_client_instance.get_collection.side_effect = Exception("Collection doesn't exist")
         
         # Initialize service and reset database
         service = DatabaseService()
@@ -223,7 +223,10 @@ class TestDatabaseService(unittest.TestCase):
         # Assert correct reset
         self.assertTrue(result)
         mock_client_instance.reset.assert_called_once()
-        mock_client_instance.create_collection.assert_called_once()
+        mock_client_instance.create_collection.assert_called_once_with(
+            name=DatabaseService.ARTICLES_COLLECTION,
+            metadata={"description": "Collection for news articles with summaries and topics"}
+        )
 
 
 if __name__ == '__main__':
