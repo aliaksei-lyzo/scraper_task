@@ -69,11 +69,10 @@ class TestArticleSummarizer:
             summarizer = ArticleSummarizer()
             result = summarizer.summarize(sample_article, summary_type="detailed")
             
-            # Verify the result
-            assert isinstance(result, ArticleSummary)
+            # Verify the result            assert isinstance(result, ArticleSummary)
             assert result.summary == "This is a detailed test summary with more information."
             assert result.summary_type == "detailed"
-
+            
     def test_identify_topics(self, sample_article, mock_openai_env):
         """Test identifying topics from an article."""
         with patch('src.summarizer.ChatOpenAI') as mock_chat:
@@ -82,8 +81,8 @@ class TestArticleSummarizer:
             mock_message = MagicMock()
             mock_message.content = """```json
             {
-                "topics": ["Technology", "Artificial Intelligence", "Society"],
-                "keywords": ["AI", "advancements", "technology", "society", "implications"]
+                "topics": ["technology: Technology", "technology: Artificial Intelligence", "society: Society"],
+                "keywords": ["technology: AI", "technology: advancements", "technology: technology", "society: society", "society: implications"]
             }
             ```"""
             mock_chat_instance.invoke.return_value = mock_message
@@ -95,10 +94,10 @@ class TestArticleSummarizer:
             
             # Verify the result
             assert isinstance(result, TopicIdentification)
-            assert "Technology" in result.topics
-            assert "Artificial Intelligence" in result.topics
-            assert "AI" in result.keywords
-            assert "technology" in result.keywords
+            assert "technology: Technology" in result.topics
+            assert "technology: Artificial Intelligence" in result.topics
+            assert "technology: AI" in result.keywords
+            assert "technology: technology" in result.keywords
 
     def test_summarize_error_handling(self, sample_article, mock_openai_env):
         """Test error handling during summarization."""
@@ -112,14 +111,14 @@ class TestArticleSummarizer:
                 summarizer.summarize(sample_article)
                 
             assert "Failed to summarize article" in str(excinfo.value)
-
+            
     def test_parse_topics_response_valid_json(self, mock_openai_env):
         """Test parsing a valid JSON response for topics."""
         summarizer = ArticleSummarizer()
         response = """```json
         {
-            "topics": ["Politics", "Economy", "International Relations"],
-            "keywords": ["policy", "finance", "global", "treaty", "trade"]
+            "topics": ["politics: Politics", "economics: Economy", "politics: International Relations"],
+            "keywords": ["politics: policy", "economics: finance", "international: global", "politics: treaty", "economics: trade"]
         }
         ```"""
         
@@ -127,10 +126,8 @@ class TestArticleSummarizer:
         
         assert "topics" in result
         assert "keywords" in result
-        assert "Politics" in result["topics"]
-        assert "finance" in result["keywords"]
-
-    def test_parse_topics_response_invalid_json(self, mock_openai_env):
+        assert "politics: Politics" in result["topics"]
+        assert "economics: finance" in result["keywords"]    def test_parse_topics_response_invalid_json(self, mock_openai_env):
         """Test parsing an invalid JSON response for topics."""
         summarizer = ArticleSummarizer()
         response = """
@@ -150,3 +147,7 @@ class TestArticleSummarizer:
         assert "keywords" in result
         assert len(result["topics"]) > 0
         assert len(result["keywords"]) > 0
+        
+        # Check that classifications were added
+        assert all(":" in topic for topic in result["topics"])
+        assert all(":" in keyword for keyword in result["keywords"])

@@ -31,11 +31,11 @@ class ArticleSummary(BaseModel):
     
     Attributes:
         article_id: Reference to the original article
-        summary: The generated summary of the article
+        summary: The generated summary of the article, including category classification
         summary_type: The type of summary (e.g., 'concise', 'detailed')
     """
     article_id: str = Field(..., description="Reference to the original article")
-    summary: str = Field(..., description="The generated summary text")
+    summary: str = Field(..., description="The generated summary text, including category classification")
     summary_type: str = Field("concise", description="The type of summary generated")
 
 
@@ -45,12 +45,12 @@ class TopicIdentification(BaseModel):
     
     Attributes:
         article_id: Reference to the original article
-        topics: List of identified topics
-        keywords: List of relevant keywords
+        topics: List of identified topics with classifications (e.g., "politics: election reform")
+        keywords: List of relevant keywords with classifications (e.g., "technology: blockchain")
     """
     article_id: str = Field(..., description="Reference to the original article")
-    topics: List[str] = Field(..., description="Main topics identified in the article")
-    keywords: List[str] = Field(..., description="Relevant keywords from the article")
+    topics: List[str] = Field(..., description="Main topics identified in the article with classifications")
+    keywords: List[str] = Field(..., description="Relevant keywords from the article with classifications")
 
 
 class ArticleDocument(BaseModel):
@@ -63,9 +63,9 @@ class ArticleDocument(BaseModel):
     Attributes:
         id: Unique identifier for the document
         content: Original article content
-        summary: Generated summary
-        topics: Identified topics 
-        keywords: Relevant keywords
+        summary: Generated summary with classification
+        topics: Identified topics with classifications (e.g., "politics: election reform")
+        keywords: Relevant keywords with classifications (e.g., "technology: blockchain")
         embedding: Vector representation for semantic search
     """
     id: str = Field(..., description="Unique identifier for the document")

@@ -97,7 +97,6 @@ class ArticleSummarizer:
         except Exception as e:
             logger.error(f"Error summarizing article: {str(e)}")
             raise ValueError(f"Failed to summarize article: {str(e)}")
-    
     def identify_topics(self, article: ArticleContent) -> TopicIdentification:
         """
         Identify main topics and keywords from article content.
@@ -122,8 +121,12 @@ class ArticleSummarizer:
                 SystemMessage(content=(
                     "You are an expert at analyzing news articles and identifying main topics and keywords. "
                     "Identify the 3-5 main topics and 5-10 relevant keywords from the article. "
-                    "Always Return only a JSON with two lists: 'topics' and 'keywords'."
-                    "If no topics or keywords are found, return empty lists respectively."
+                    "Also identify a single overall classification for the article (e.g., 'politics', 'technology', 'sports', 'health', etc.). "
+                    "Always return only a JSON with three keys: 'classification', 'topics', and 'keywords'. "
+                    "The 'classification' should be a single string, and 'topics' and 'keywords' should be lists. "
+                    "Add the classification as the first element in both the topics and keywords lists. "
+                    "Example format: {'classification': 'gaming', 'topics': ['gaming', 'fortnite leaks', 'fortnite gameplay'], 'keywords': ['gaming', 'battle royale', 'skins', 'update']}. "
+                    "If no topics or keywords are found, include just the classification in the lists."
                 )),
                 HumanMessage(content=full_text)
             ]
@@ -136,7 +139,6 @@ class ArticleSummarizer:
             
             logger.info(f"Successfully identified topics and keywords")
             article_id = str(hash(f"{article.url}-{article.title}"))
-            
             return TopicIdentification(
                 article_id=article_id,
                 topics=result["topics"],
@@ -146,11 +148,13 @@ class ArticleSummarizer:
         except Exception as e:
             logger.error(f"Error identifying topics: {str(e)}")
             raise ValueError(f"Failed to identify topics: {str(e)}")
-    
+            
     def _create_concise_chain(self):
         """Create a chain for generating concise summaries."""
         prompt_template = """
-        Write a concise summary of the following article in no more than 3-4 sentences:
+        Write a concise summary of the following article in no more than 3-4 sentences.
+        First, identify a single main classification category for the article (e.g., politics, technology, sports, health).
+        Begin your summary with "Classification: <category> - " followed by your summary text.
         
         {text}
         
@@ -158,11 +162,11 @@ class ArticleSummarizer:
         """
         prompt = PromptTemplate.from_template(prompt_template)
         return load_summarize_chain(self.model, chain_type="stuff", prompt=prompt)
-    
     def _create_detailed_chain(self):
         """Create a chain for generating detailed summaries."""
         prompt_template = """
-        Write a comprehensive summary of the following article. Include the main points, key details, and conclusions:
+        Write a comprehensive summary of the following article. Include the main points, key details, and conclusions.
+        Include the article's main classification (e.g., politics, technology, sports, health) at the beginning of the summary in the format "Classification: <category> - <summary text>":
         
         {text}
         
@@ -197,17 +201,30 @@ class ArticleSummarizer:
                     json_str = match.group(0)
                 else:
                     json_str = response_content
-            
-            # Parse the JSON
+              # Parse the JSON
             result = json.loads(json_str)
             
             # Ensure expected keys are present
+            classification = result.get("classification", "general")
+            
             if "topics" not in result or "keywords" not in result:
                 logger.warning("Response did not contain expected keys")
                 result = {
-                    "topics": result.get("topics", ["General News"]),
-                    "keywords": result.get("keywords", ["news", "article"])
+                    "topics": [classification, "General News"],
+                    "keywords": [classification, "news", "article"]
                 }
+            else:
+                # Add classification as first element if it's not already there
+                topics = result.get("topics", [])
+                if not topics or topics[0] != classification:
+                    topics.insert(0, classification)
+                
+                keywords = result.get("keywords", [])
+                if not keywords or keywords[0] != classification:
+                    keywords.insert(0, classification)
+                    
+                result["topics"] = topics
+                result["keywords"] = keywords
             
             return result
             
@@ -228,21 +245,35 @@ class ArticleSummarizer:
                     current_list = keywords
                     line = re.sub(r".*keywords?:?", "", line, flags=re.IGNORECASE).strip()
                 
-                if current_list is not None and line and not line.startswith(("topic", "keyword")):
-                    # Extract words or phrases
-                    items = re.findall(r'"([^"]+)"|(\w+)', line)
+                if current_list is not None and line and not line.startswith(("topic", "keyword")):                    # Extract words or phrases
+                    items = re.findall(r'"([^"]+)"|([^,;\s]+(?:\s+[^,;]+)*)', line)
                     for item in items:
                         item_text = item[0] if item[0] else item[1]
                         if item_text and len(item_text) > 1:
-                            current_list.append(item_text)
+                            current_list.append(item_text.strip())# Determine overall classification from topics or keywords
+            classification = "general"
+            
+            # See if we can extract classification from the text
+            classification_match = re.search(r"classification[:\s]+([a-zA-Z]+)", response_content, re.IGNORECASE)
+            if classification_match:
+                classification = classification_match.group(1).lower()
             
             # Ensure we have at least something in each category
             if not topics:
-                topics = ["General News"]
+                topics = [classification, "General News"]
+            elif topics[0] != classification:
+                topics.insert(0, classification)
+                
             if not keywords:
-                keywords = ["news", "article"]
+                keywords = [classification, "news", "article"]
+            elif keywords[0] != classification:
+                keywords.insert(0, classification)
+                
+            # Limit to reasonable number of items
+            topics = topics[:6]  # Classification + 5 topics max
+            keywords = keywords[:11]  # Classification + 10 keywords max
             
             return {
-                "topics": topics[:5],  # Limit to 5 topics
-                "keywords": keywords[:10]  # Limit to 10 keywords
+                "topics": topics,
+                "keywords": keywords
             }
