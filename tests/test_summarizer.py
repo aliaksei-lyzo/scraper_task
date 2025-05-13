@@ -50,12 +50,12 @@ class TestArticleSummarizer:
             # Create summarizer and run summarization
             summarizer = ArticleSummarizer()
             result = summarizer.summarize(sample_article, summary_type="concise")
-            
-            # Verify the result
+              # Verify the result
             assert isinstance(result, ArticleSummary)
             assert result.summary == "This is a concise test summary."
             assert result.summary_type == "concise"
-            assert result.original_article == sample_article
+            expected_id = str(hash(f"{sample_article.url}-{sample_article.title}"))
+            assert result.article_id == expected_id
 
     def test_summarize_detailed(self, sample_article, mock_openai_env):
         """Test generating a detailed summary."""

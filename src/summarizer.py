@@ -86,9 +86,10 @@ class ArticleSummarizer:
             summary = chain.run(docs)
             
             logger.info(f"Successfully generated {summary_type} summary")
+            article_id = str(hash(f"{article.url}-{article.title}"))
             
             return ArticleSummary(
-                original_article=article,
+                article_id=article_id,
                 summary=summary,
                 summary_type=summary_type
             )
@@ -134,9 +135,10 @@ class ArticleSummarizer:
             result = self._parse_topics_response(str(response.content))
             
             logger.info(f"Successfully identified topics and keywords")
+            article_id = str(hash(f"{article.url}-{article.title}"))
             
             return TopicIdentification(
-                original_article=article,
+                article_id=article_id,
                 topics=result["topics"],
                 keywords=result["keywords"]
             )

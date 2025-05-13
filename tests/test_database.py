@@ -9,6 +9,7 @@ import unittest
 from unittest.mock import patch, MagicMock
 import uuid
 import os
+from pydantic import HttpUrl
 
 from src.models import ArticleContent, ArticleSummary, TopicIdentification
 from src.database import DatabaseService
@@ -18,23 +19,23 @@ class TestDatabaseService(unittest.TestCase):
     """Test cases for the DatabaseService class."""
     
     def setUp(self):
-        """Set up test fixtures before each test method."""
-        # Create mock article data for testing
+        """Set up test fixtures before each test method."""        # Create mock article data for testing
         self.article = ArticleContent(
-            url="https://www.example.com/article",
+            url=HttpUrl("https://www.example.com/article"),
             title="Test Article Title",
             text="This is a test article with enough content to process.",
             metadata={"author": "Test Author"}
         )
+        article_id = str(hash(f"{self.article.url}-{self.article.title}"))
         
         self.summary = ArticleSummary(
-            original_article=self.article,
+            article_id=article_id,
             summary="This is a summary of the test article.",
             summary_type="concise"
         )
         
         self.topics = TopicIdentification(
-            original_article=self.article,
+            article_id=article_id,
             topics=["Technology", "Testing", "AI"],
             keywords=["test", "article", "mock", "database", "vector"]
         )
@@ -162,7 +163,7 @@ class TestDatabaseService(unittest.TestCase):
         
         # Initialize service and get article
         service = DatabaseService()
-        result = service.get_article_by_id("doc-id-1")
+        result = service.get_article_by_id("doc-id-1") or {}
         
         # Assert correct article retrieval
         self.assertEqual(result["id"], "doc-id-1")
