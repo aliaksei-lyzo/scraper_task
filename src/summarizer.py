@@ -14,8 +14,8 @@ from langchain.chains.summarize import load_summarize_chain
 from langchain.prompts import PromptTemplate
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-from src.config import OpenAIConfig
-from src.models import ArticleContent, ArticleSummary, TopicIdentification
+from config import OpenAIConfig
+from models import ArticleContent, ArticleSummary, TopicIdentification
 
 # Configure logging
 logging.basicConfig(

@@ -12,7 +12,7 @@ from bs4.element import Tag
 from typing import Dict, Any
 from pydantic import HttpUrl
 
-from src.models import ArticleContent
+from models import ArticleContent
 
 # Configure logging
 logging.basicConfig(

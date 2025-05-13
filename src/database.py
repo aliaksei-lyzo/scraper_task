@@ -189,8 +189,8 @@ class DatabaseService:
                         "url": metadata.get("url", ""),
                         "title": metadata.get("title", ""),
                         "summary": metadata.get("summary", ""),
-                        "topics": metadata.get("topics", "").split(", "),
-                        "keywords": metadata.get("keywords", "").split(", "),
+                        "topics": str(metadata.get("topics", "")).split(", "),
+                        "keywords": str(metadata.get("keywords", "")).split(", "),
                         "relevance_score": 1 - (distance or 0) if distance is not None else None
                     }
                     
@@ -237,8 +237,8 @@ class DatabaseService:
                 "url": metadata.get("url", ""),
                 "title": metadata.get("title", ""),
                 "summary": metadata.get("summary", ""),
-                "topics": metadata.get("topics", "").split(", "),
-                "keywords": metadata.get("keywords", "").split(", ")
+                "topics": str(metadata.get("topics", "")).split(", "),
+                "keywords": str(metadata.get("keywords", "")).split(", ")
             }
             
             logger.info(f"Successfully retrieved article with ID {doc_id}")
@@ -280,7 +280,7 @@ class DatabaseService:
                     "id": doc_id,
                     "url": metadata.get("url", ""),
                     "title": metadata.get("title", ""),
-                    "topics": metadata.get("topics", "").split(", ")
+                    "topics": str(metadata.get("topics", "")).split(", ")
                 }
                 
                 articles.append(article_data)
