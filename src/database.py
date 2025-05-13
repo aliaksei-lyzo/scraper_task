@@ -65,7 +65,8 @@ class DatabaseService:
             try:
                 self.client.get_collection(name=self.ARTICLES_COLLECTION)
                 logger.info(f"Collection '{self.ARTICLES_COLLECTION}' already exists")
-            except ValueError:
+            except Exception as e:
+                print(f"Collection '{self.ARTICLES_COLLECTION}' not found, creating it")
                 self.client.create_collection(
                     name=self.ARTICLES_COLLECTION,
                     metadata={"description": "Collection for news articles with summaries and topics"}
